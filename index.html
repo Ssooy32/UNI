@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>치이카와 도감 (Chiikawa Characters)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Floating background decorations -->
+  <div class="bubble bubble-1">🌸</div>
+  <div class="bubble bubble-2">⭐</div>
+  <div class="bubble bubble-3">🍡</div>
+  <div class="bubble bubble-4">🍀</div>
+  <div class="bubble bubble-5">✨</div>
+  <div class="bubble bubble-6">🎀</div>
+
+  <header class="header">
+    <div class="header-badge">✨ 먼가 작고 귀여운 녀석들 도감 ✨</div>
+    <h1 class="header-title">치이카와 친구들 도감</h1>
+    <p class="header-desc">
+      동글동글 사랑스럽지만 은근히 험난한 세계를 살아가는 치이카와와 친구들을 만나보세요!
+    </p>
+
+    <!-- View Mode Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" id="tabBookBtn">📖 캐릭터 도감</button>
+      <button class="nav-tab-btn" id="tabQuizBtn">✨ 성향 테스트 하기 🎀</button>
+    </div>
+
+    <!-- Category filter buttons (Book View) -->
+    <div id="bookControls">
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">전체보기 🐾</button>
+        <button class="filter-btn" data-filter="main">삼총사 💖</button>
+        <button class="filter-btn" data-filter="friends">숲속 친구들 🌿</button>
+        <button class="filter-btn" data-filter="yoroi">갑옷 씨들 🛡️</button>
+        <button class="filter-btn" data-filter="special">특별한 존재들 🔮</button>
+      </div>
+
+      <!-- Search input -->
+      <div class="search-box-wrapper">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="캐릭터 이름이나 키워드를 검색해보세요! (예: 울보, 제초, 토벌...)" />
+          <button id="clearSearch" class="clear-btn" style="display:none;">✕</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section 1: Character Encyclopedia -->
+  <main class="main-content" id="bookSection">
+    <div class="cards-grid" id="charactersGrid">
+      <!-- Cards dynamically generated via app.js -->
+    </div>
+    <div id="noResults" class="no-results" style="display: none;">
+      <div class="no-results-icon">( ´•̥̥̥ω•̥̥̥` )</div>
+      <p>검색 결과가 없어요... 다시 찾아봐줄래?</p>
+    </div>
+  </main>
+
+  <!-- Section 2: Personality Quiz -->
+  <section class="quiz-section" id="quizSection" style="display: none;">
+    <!-- Quiz Intro Screen -->
+    <div class="quiz-box" id="quizIntro">
+      <div class="quiz-badge">CHIIKAWA MBTI TEST</div>
+      <div class="quiz-hero-icon">🍓✨🐰</div>
+      <h2 class="quiz-title">나는 치이카와 세계관의<br>어떤 캐릭터일까?</h2>
+      <p class="quiz-subtitle">
+        평소 나의 성향과 행동 방식을 통해<br>나와 가장 싱크로율이 높은 치이카와 캐릭터를 찾아보세요!
+      </p>
+      <div class="quiz-intro-tags">
+        <span>✨ 총 8문항</span>
+        <span>⏱️ 약 1분 소요</span>
+        <span>💖 싱크로율 분석</span>
+      </div>
+      <button class="quiz-start-btn" id="startQuizBtn">테스트 시작하기 🐾</button>
+    </div>
+
+    <!-- Quiz Question Screen -->
+    <div class="quiz-box" id="quizQuestions" style="display: none;">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quizProgressFill"></div>
+        </div>
+        <div class="quiz-progress-text" id="quizProgressText">Q. 1 / 8</div>
+      </div>
+
+      <div class="question-title-wrap">
+        <span class="question-emoji" id="questionEmoji">🌸</span>
+        <h3 class="question-text" id="questionText">질문이 여기에 표시됩니다.</h3>
+      </div>
+
+      <div class="answers-list" id="answersList">
+        <!-- Answer options dynamically inserted -->
+      </div>
+    </div>
+
+    <!-- Quiz Loading / Calculating Screen -->
+    <div class="quiz-box quiz-loading" id="quizLoading" style="display: none;">
+      <div class="loading-spinner">🍡</div>
+      <h3>당신의 치이카와 성향을 분석 중...</h3>
+      <p>풀을 뽑는 중입니다... 잡초 검사 중... 🍀</p>
+    </div>
+
+    <!-- Quiz Result Screen -->
+    <div class="quiz-box quiz-result-box" id="quizResult" style="display: none;">
+      <div class="result-badge">당신의 치이카와 캐릭터는?</div>
+      
+      <div class="result-card-banner" id="resultBanner">
+        <img id="resultImg" src="" alt="결과 캐릭터" />
+      </div>
+
+      <h2 class="result-char-name" id="resultName">치이카와</h2>
+      <div class="result-char-sub" id="resultSub">소심하지만 용기 있는 다정한 울보</div>
+
+      <div class="result-quote-box" id="resultQuoteBox">
+        <span class="result-quote-mark">“</span>
+        <span id="resultQuote"></span>
+        <span class="result-quote-mark">”</span>
+      </div>
+
+      <div class="result-details">
+        <div class="result-section">
+          <h4>🌟 당신의 핵심 성향</h4>
+          <p id="resultTraitDesc"></p>
+        </div>
+        <div class="result-section">
+          <h4>💬 이런 상황에서 당신은?</h4>
+          <ul id="resultSituations"></ul>
+        </div>
+        <div class="result-match-grid">
+          <div class="match-box good-match">
+            <span class="match-title">💖 찰떡궁합 친구</span>
+            <div class="match-content" id="resultBestMatch"></div>
+          </div>
+          <div class="match-box caution-match">
+            <span class="match-title">⚡ 조금 조심할 친구</span>
+            <div class="match-content" id="resultWorstMatch"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="result-btn restart-btn" id="restartQuizBtn">🔄 다시 테스트하기</button>
+        <button class="result-btn go-book-btn" id="viewInBookBtn">📖 이 캐릭터 도감 보러가기</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="charModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="modalClose">✕</button>
+      <div class="modal-header-visual" id="modalVisual">
+        <img id="modalImg" src="" alt="" />
+      </div>
+      <div class="modal-body">
+        <div class="modal-tag-group" id="modalTags"></div>
+        <h2 class="modal-name" id="modalName"></h2>
+        <div class="modal-jp-name" id="modalJpName"></div>
+        <p class="modal-catchphrase" id="modalCatchphrase"></p>
+
+        <div class="modal-divider"></div>
+
+        <div class="modal-section">
+          <h3 class="modal-section-title">🌟 캐릭터 소개</h3>
+          <p class="modal-desc" id="modalDesc"></p>
+        </div>
+
+        <div class="modal-info-grid">
+          <div class="modal-info-box">
+            <span class="info-label">주요 특징</span>
+            <span class="info-val" id="modalFeature"></span>
+          </div>
+          <div class="modal-info-box">
+            <span class="info-label">자격증 / 무기</span>
+            <span class="info-val" id="modalWeapon"></span>
+          </div>
+          <div class="modal-info-box">
+            <span class="info-label">취미 / 기호</span>
+            <span class="info-val" id="modalHobby"></span>
+          </div>
+          <div class="modal-info-box">
+            <span class="info-label">말버릇 & 대표 대사</span>
+            <span class="info-val" id="modalQuote"></span>
+          </div>
+        </div>
+
+        <div class="sound-button-wrap">
+          <button class="sound-pill-btn" id="soundBtn">
+            <span class="sound-speaker">📢</span> 말버릇 외쳐보기!
+          </button>
+          <div id="speechBubble" class="speech-bubble"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>치이카와(ちいかわ) © 나가노(nagano) | 사랑을 담아 제작된 팬 도감 웹 앱</p>
+    <p class="footer-sub">로컬 전용 단일 웹 앱 • 더블클릭으로 언제든 즐기실 수 있습니다 ✨</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
